@@ -27,18 +27,36 @@
     "reactstrap": "6.3.0"
   },
   "devDependencies": {
+    "@babel/core": "^7.6.0",
+    "@babel/plugin-proposal-class-properties": "^7.5.5",
+    "@babel/plugin-proposal-object-rest-spread": "^7.5.5",
+    "@babel/plugin-proposal-optional-chaining": "^7.6.0",
+    "@babel/plugin-syntax-dynamic-import": "^7.2.0",
+    "@babel/preset-env": "^7.6.0",
+    "@babel/preset-react": "^7.0.0",
+    "@svgr/rollup": "^4.3.2",
     "enzyme-to-json": "^3.3.5",
     "eslint-plugin-react": "^7.14.3",
-    "moxios": "0.4.0"
+    "moxios": "0.4.0",
+    "rollup": "^1.21.4",
+    "rollup-plugin-babel": "^4.3.3",
+    "rollup-plugin-commonjs": "^10.1.0",
+    "rollup-plugin-node-resolve": "^5.2.0",
+    "rollup-plugin-peer-deps-external": "^2.2.0",
+    "rollup-plugin-postcss": "^2.0.3",
+    "rollup-plugin-terser": "^5.1.2",
+    "rollup-plugin-url": "^2.2.2"
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build",
+    "build": "rollup -c",
     "test": "react-scripts test",
     "lint": "eslint --ext .js src",
     "eject": "react-scripts eject"
   },
   "homepage": "/",
+  "main": "dist/index.js",
+  "module": "dist/index.es.js",
   "browserslist": {
     "production": [
       ">0.2%",
