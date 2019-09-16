@@ -1,2 +1,2 @@
 import BatchReport from './Report/BatchReport';
-export default BatchReport
+export default BatchReport;

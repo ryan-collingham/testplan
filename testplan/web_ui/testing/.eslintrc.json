@@ -54,7 +54,7 @@
     "react": {
       "createClass": "createReactClass",
       "pragma": "React",
-      "version": "detect"
+      "version": "16.6.0"
     }
   }
 }
