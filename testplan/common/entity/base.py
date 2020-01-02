@@ -274,6 +274,7 @@ class EntityStatus(object):
     PAUSING = 'PAUSING'
     PAUSED = 'PAUSED'
     RESUMING = 'RESUMING'
+    ERROR = 'ERROR'
 
     def __init__(self):
         """TODO."""

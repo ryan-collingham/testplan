@@ -220,6 +220,25 @@ def test_environment_control(irunner, sync):
     assert irunner.report["test_1"].env_status == entity.ResourceStatus.STOPPED
 
 
+@pytest.mark.parametrize("sync", [True, False])
+def test_env_error_handling(irunner, sync):
+    """Test error handling when starting an environment."""
+    test = irunner.test("test_1")
+    driver = test.resources.mock_driver
+
+    def starting_error():
+        raise RuntimeError("START ERROR")
+
+    driver.starting = starting_error
+    start_result = irunner.start_test_resources("test_1", await_results=sync)
+
+    if sync:
+        assert not start_result
+    else:
+        assert not start_result.get()
+    assert irunner.report["test_1"].env_status == "ERROR"
+
+
 def _check_initial_report(initial_report):
     """
     Check that the initial report tree is generated correctly.

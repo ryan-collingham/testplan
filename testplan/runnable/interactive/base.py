@@ -780,9 +780,11 @@ class TestRunnerIHandler(entity.Entity):
                 "Exception starting environment fort test {}".format(test_uid)
             )
             # TODO - need new error status?
-            self._set_env_status(test_uid, entity.ResourceStatus.STOPPED)
+            self._set_env_status(test_uid, entity.ResourceStatus.ERROR)
+            return False
         else:
             self._set_env_status(test_uid, entity.ResourceStatus.STARTED)
+            return True
 
     def _stop_environment(self, test_uid, stop_generator):
         """Start the environment of a test."""
@@ -793,9 +795,11 @@ class TestRunnerIHandler(entity.Entity):
                 "Exception stopping environment for test {}".format(test_uid)
             )
             # TODO - need new error status?
-            self._set_env_status(test_uid, entity.ResourceStatus.STARTED)
+            self._set_env_status(test_uid, entity.ResourceStatus.ERROR)
+            return False
         else:
             self._set_env_status(test_uid, entity.ResourceStatus.STOPPED)
+            return True
 
     def _set_env_status(self, test_uid, new_status):
         """Set the environment status for a given test."""
