@@ -69,7 +69,6 @@ class TestRunnerIHandler(entity.Entity):
         self._http_handler = None
 
         self._created_environments = {}
-        self._reloader = ModuleReloader(extra_deps=self.cfg.extra_deps)
         self._resource_loader = ResourceLoader()
 
     def __call__(self, *args, **kwargs):
@@ -710,11 +709,7 @@ class TestRunnerIHandler(entity.Entity):
 
     def reload(self, rebuild_dependencies=False):
         """Reload test suites."""
-        tests = (
-            self.test(test, runner_uid=runner_uid)
-            for test, runner_uid in self.all_tests()
-        )
-        self._reloader.reload(tests, rebuild_dependencies)
+        print("Skipping reloading on AWS")
 
     def _setup_http_handler(self):
         """
