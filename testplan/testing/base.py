@@ -28,6 +28,7 @@ from testplan.report import (
     TestGroupReport,
     TestCaseReport,
     Status,
+    ReportCategories,
 )
 from testplan.common.utils.logger import TESTPLAN_LOGGER
 
@@ -139,6 +140,7 @@ class Test(Runnable):
     def _new_test_report(self):
         return TestGroupReport(
             name=self.cfg.name,
+            uid=self.cfg.name,
             description=self.cfg.description,
             category=self.__class__.__name__.lower(),
             tags=self.cfg.tags,
@@ -341,6 +343,29 @@ class Test(Runnable):
         be overridden by sub-classes.
         """
         self.resources.stop()
+
+    def dry_run(self):
+        """
+        Return an empty report skeleton for this Test including all
+        testsuites, testcases etc. hierarchy. Does not run any tests.
+        """
+        suites_to_run = self.test_context
+        self.result.report = self._new_test_report()
+
+        for testsuite, testcases in suites_to_run:
+            testsuite_report = TestGroupReport(
+                name=testsuite,
+                category=ReportCategories.TESTSUITE,
+                uid=testsuite,
+            )
+
+            for testcase in testcases:
+                testcase_report = TestCaseReport(name=testcase, uid=testcase,)
+                testsuite_report.append(testcase_report)
+
+            self.result.report.append(testsuite_report)
+
+        return self.result
 
 
 class ProcessRunnerTestConfig(TestConfig):
