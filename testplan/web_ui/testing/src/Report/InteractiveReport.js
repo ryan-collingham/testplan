@@ -420,9 +420,11 @@ class InteractiveReport extends React.Component {
       },
       () => {
         if (needReset) {
-          this.resetTestcasesRecur(this.state.report).then(
-            () => this.setState({resetting: false})
-          );
+          this.resetEnvironment().then(() => {
+            this.resetTestcasesRecur(this.state.report).then(
+              () => this.setState({resetting: false})
+            )
+          });
         }
       }
     );
@@ -449,6 +451,20 @@ class InteractiveReport extends React.Component {
         childEntry => this.resetTestcasesRecur(childEntry)
       ));
     }
+  }
+
+  /**
+   * Reset the environment state by stopping all started environments.
+   */
+  resetEnvironment() {
+    return Promise.all(this.state.report.entries.map(reportEntry => {
+      const updatedReportEntry = {
+        ...reportEntry,
+        env_status: reportEntry.env_status === "STARTED" ?
+          "STOPPING": reportEntry.env_status,
+      };
+      return this.putUpdatedReportEntry(updatedReportEntry);
+    }));
   }
 
   /**
