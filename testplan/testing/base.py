@@ -30,6 +30,7 @@ from testplan.report import (
     TestCaseReport,
     Status,
     ReportCategories,
+    RuntimeStatus,
 )
 from testplan.common.utils.logger import TESTPLAN_LOGGER
 from testplan.testing.multitest.entries.assertions import RawAssertion
@@ -685,15 +686,15 @@ class ProcessRunnerTest(Test):
                 ).serialize()
             ],
         )
+        testcase_report.runtime_status = RuntimeStatus.FINISHED
 
-        if not passed:
-            testcase_report.status_override = Status.ERROR
-
-        return TestGroupReport(
+        suite_report = TestGroupReport(
             name="ProcessChecks",
             category=ReportCategories.TESTSUITE,
             entries=[testcase_report],
         )
+
+        return suite_report
 
     def update_test_report(self):
         """

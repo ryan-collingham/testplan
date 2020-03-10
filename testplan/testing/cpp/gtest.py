@@ -2,7 +2,7 @@ from schema import Or
 
 from testplan.common.config import ConfigOption
 
-from testplan.report import TestGroupReport, TestCaseReport, Status
+from testplan.report import TestGroupReport, TestCaseReport, Status, RuntimeStatus
 from testplan.testing.multitest.entries.assertions import RawAssertion
 from testplan.testing.multitest.entries.schemas.base import registry
 
@@ -178,9 +178,12 @@ class GTest(ProcessRunnerTest):
                     )
                     testcase_report.append(registry.serialize(assertion_obj))
 
+                testcase_report.runtime_status = RuntimeStatus.FINISHED
+
                 if testcase.attrib["status"] != "notrun":
                     suite_report.append(testcase_report)
                     suite_has_run = True
+
 
             if suite_has_run:
                 result.append(suite_report)
