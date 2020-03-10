@@ -154,14 +154,18 @@ class GTest(ProcessRunnerTest):
         """
         result = []
         for suite in test_data.getchildren():
+            suite_name = suite.attrib["name"]
             suite_report = TestGroupReport(
-                name=suite.attrib["name"], category="testsuite"
+                name=suite_name, uid=suite_name, category="testsuite"
             )
             suite_has_run = False
 
             for testcase in suite.getchildren():
 
-                testcase_report = TestCaseReport(name=testcase.attrib["name"])
+                testcase_name = testcase.attrib["name"]
+                testcase_report = TestCaseReport(
+                    name=testcase_name, uid=testcase_name
+                )
 
                 if not testcase.getchildren():
                     testcase_report.status_override = Status.PASSED
