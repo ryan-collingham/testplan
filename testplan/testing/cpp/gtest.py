@@ -242,3 +242,16 @@ class GTest(ProcessRunnerTest):
 
         with open(self.report_path) as report_xml:
             self.result.report.xml_string = report_xml.read()
+
+    def test_command_filter(self, testsuite_pattern, testcase_pattern):
+        """
+        Return the base test command with additional filtering to run a
+        specific set of testcases.
+        """
+        test_cmd = self.test_command()
+        if testsuite_pattern != "*" or testcase_pattern != "*":
+            test_cmd.append("--gtest_filter={}.{}".format(
+                testsuite_pattern, testcase_pattern,
+            ))
+        return test_cmd
+

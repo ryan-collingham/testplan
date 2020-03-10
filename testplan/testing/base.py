@@ -797,7 +797,8 @@ class ProcessRunnerTest(Test):
         """
         self.make_runpath_dirs()
         test_runner = os.path.abspath(self.cfg.driver)
-        test_cmd = self.test_command()
+        test_cmd = self.test_command_filter(testsuite_pattern, testcase_pattern)
+        self.logger.debug("test_cmd = %s", test_cmd)
 
         with tempfile.TemporaryFile() as stdout, tempfile.TemporaryFile() as stderr:
             exit_code = subprocess.call(
@@ -814,4 +815,11 @@ class ProcessRunnerTest(Test):
         for suite_report in self.process_test_data(self.read_test_data()):
             for testcase_report in suite_report:
                 yield testcase_report, [self.name, suite_report.name]
+
+    def test_command_filter(self, testsuite_pattern, testcase_pattern):
+        """
+        Return the base test command with additional filtering to run a
+        specific set of testcases.
+        """
+        raise NotImplementedError
 
