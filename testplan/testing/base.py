@@ -678,6 +678,7 @@ class ProcessRunnerTest(Test):
         testcase_report = TestCaseReport(
             name="ExitCodeCheck",
             uid="ExitCodeCheck",
+            suite_related=True,
             entries=[
                 RawAssertion(
                     description="Process exit code check",
@@ -767,7 +768,7 @@ class ProcessRunnerTest(Test):
         )
 
         testcase_report = TestCaseReport(
-            name="ExitCodeCheck", uid="ExitCodeCheck",
+            name="ExitCodeCheck", uid="ExitCodeCheck", suite_related=True,
         )
         testsuite_report.append(testcase_report)
         report.append(testsuite_report)
