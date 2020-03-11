@@ -168,15 +168,22 @@ class GTest(ProcessRunnerTest):
                 )
 
                 if not testcase.getchildren():
-                    testcase_report.status_override = Status.PASSED
-
-                for entry in testcase.getchildren():
                     assertion_obj = RawAssertion(
-                        description=entry.tag,
-                        content=entry.text,
-                        passed=entry.tag != "failure",
+                        description="Passed",
+                        content="Testcase {} passed".format(testcase_name),
+                        passed=True,
                     )
                     testcase_report.append(registry.serialize(assertion_obj))
+                else:
+                    for entry in testcase.getchildren():
+                        assertion_obj = RawAssertion(
+                            description=entry.tag,
+                            content=entry.text,
+                            passed=entry.tag != "failure",
+                        )
+                        testcase_report.append(
+                            registry.serialize(assertion_obj)
+                        )
 
                 testcase_report.runtime_status = RuntimeStatus.FINISHED
 

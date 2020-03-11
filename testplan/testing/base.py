@@ -671,8 +671,8 @@ class ProcessRunnerTest(Test):
         )
 
         passed = (
-            self._test_process_retcode == 0 or
-            self._test_process_retcode in self.cfg.ignore_exit_codes
+            retcode == 0 or
+            retcode in self.cfg.ignore_exit_codes
         )
 
         testcase_report = TestCaseReport(
