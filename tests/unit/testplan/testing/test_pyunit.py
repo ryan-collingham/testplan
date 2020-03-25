@@ -7,6 +7,7 @@ from testplan.testing import pyunit
 from testplan.testing import filtering
 from testplan.testing import ordering
 from testplan import defaults
+import testplan.report
 
 PYUNIT_DEFAULT_PARAMS = {
     "test_filter": filtering.Filter(),
@@ -53,7 +54,11 @@ def test_passing_tests():
     assert report.passed
     assert len(report.entries) == 1
 
-    testcase_report = report.entries[0]
+    testsuite_report = report.entries[0]
+    assert testsuite_report.passed
+    assert len(testsuite_report.entries) == 1
+
+    testcase_report = testsuite_report.entries[0]
     assert testcase_report.passed
     assert len(testcase_report.entries) == 1
 
@@ -75,7 +80,11 @@ def test_failing_tests():
     assert not report.passed
     assert len(report.entries) == 1
 
-    testcase_report = report.entries[0]
+    testsuite_report = report.entries[0]
+    assert not testsuite_report.passed
+    assert len(testsuite_report.entries) == 1
+
+    testcase_report = testsuite_report.entries[0]
     assert not testcase_report.passed
     assert len(testcase_report.entries) == 2
 
@@ -86,3 +95,36 @@ def test_failing_tests():
     fail_entry = testcase_report.entries[1]
     assert "AssertionError: False is not true" in fail_entry["content"]
     assert "test_asserts_false" in fail_entry["description"]
+
+
+_EXPECTED_DRY_RUN_REPORT = testplan.report.TestGroupReport(
+    name="My PyUnit",
+    uid="My PyUnit",
+    description="PyUnit example test",
+    category="pyunit",
+    entries=[
+        testplan.report.TestGroupReport(
+            name="PyUnit testsuite",
+            uid="PyUnit testsuite",
+            category=testplan.report.ReportCategories.TESTSUITE,
+            entries=[
+                testplan.report.TestCaseReport(
+                    name="PyUnit test results",
+                    uid="PyUnit test results",
+                )
+            ]
+        )
+    ]
+)
+
+
+def test_dry_run():
+    test_runner = pyunit.PyUnit(
+        name="My PyUnit",
+        description="PyUnit example test",
+        suite=unittest.makeSuite(Passing),
+        **PYUNIT_DEFAULT_PARAMS
+    )
+    result = test_runner.dry_run()
+    report = result.report
+    assert report == _EXPECTED_DRY_RUN_REPORT

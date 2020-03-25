@@ -36,6 +36,7 @@ class PyUnit(testing.Test):
     """
 
     CONFIG = PyUnitConfig
+    _TESTSUITE_NAME = "PyUnit testsuite"
     _TESTCASE_NAME = "PyUnit test results"
 
     def main_batch_steps(self):
@@ -80,21 +81,39 @@ class PyUnit(testing.Test):
             )
             testcase_report.append(schemas.base.registry.serialize(log_entry))
 
-        self.result.report.append(testcase_report)
+        # We have to wrap the testcase report in a testsuite report.
+        testsuite_report = report_testing.TestGroupReport(
+            name=self._TESTSUITE_NAME,
+            uid=self._TESTSUITE_NAME,
+            category=report_testing.ReportCategories.TESTSUITE,
+            entries=[testcase_report],
+        )
+
+        self.result.report.append(testsuite_report)
 
     def get_test_context(self):
         """
         Currently we do not inspect individual PyUnit testcases - only allow
         the whole suite to be run.
         """
-        return [self._TESTCASE_NAME, []]
+        return [self._TESTSUITE_NAME, [self._TESTCASE_NAME]]
 
     def dry_run(self):
         """Return an empty report tree."""
-        report = self._new_test_report()
-        testcase_report = report_testing.TestCaseReport(
-            name=self._TESTCASE_NAME
+        test_report = self._new_test_report()
+        testsuite_report = report_testing.TestGroupReport(
+            name=self._TESTSUITE_NAME,
+            uid=self._TESTSUITE_NAME,
+            category=report_testing.ReportCategories.TESTSUITE,
+            entries=[
+                report_testing.TestCaseReport(
+                    name=self._TESTCASE_NAME, uid=self._TESTCASE_NAME,
+                )
+            ],
         )
-        report.append(testcase_report)
 
-        return report
+        test_report.append(testsuite_report)
+        result = testing.TestResult()
+        result.report = test_report
+
+        return result
