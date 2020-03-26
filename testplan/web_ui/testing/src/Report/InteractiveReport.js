@@ -9,7 +9,7 @@ import axios from 'axios';
 
 import { INTERACTIVE_COL_WIDTH } from "../Common/defaults";
 import Toolbar from '../Toolbar/Toolbar.js';
-import { ResetButton } from '../Toolbar/InteractiveButtons';
+import { ResetButton } from '../Toolbar/ToolbarButtons';
 import InteractiveNav from '../Nav/InteractiveNav.js';
 import { FakeInteractiveReport } from '../Common/sampleReports.js';
 import {

@@ -1,13 +1,13 @@
 import React from 'react';
-import {shallow} from 'enzyme';
-import {StyleSheetTestUtils} from "aphrodite";
+import { shallow } from 'enzyme';
+import { StyleSheetTestUtils } from "aphrodite";
 
 import Toolbar from '../Toolbar';
 import {
   TOOLBAR_BUTTONS_BATCH,
   TOOLBAR_BUTTONS_INTERACTIVE
 } from "../../Common/defaults";
-import {ResetButton} from "../InteractiveButtons";
+import { ResetButton } from "../ToolbarButtons";
 
 function defaultProps() {
   return {

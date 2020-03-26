@@ -1,31 +1,20 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import {css} from 'aphrodite';
+import { css } from 'aphrodite';
 import {
   Button,
   Collapse,
-  DropdownToggle,
-  DropdownMenu,
-  DropdownItem,
-  Input,
-  Label,
   Navbar,
   Nav,
-  NavItem,
   Modal,
   ModalHeader,
   ModalBody,
   ModalFooter,
-  UncontrolledDropdown,
   Table
 } from 'reactstrap';
-
 import FilterBox from "../Toolbar/FilterBox";
-import {STATUS, STATUS_CATEGORY} from "../Common/defaults";
-
-import {library} from '@fortawesome/fontawesome-svg-core';
-import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
-
+import { STATUS, STATUS_CATEGORY } from "../Common/defaults";
+import { library } from '@fortawesome/fontawesome-svg-core';
 import {
   faInfo,
   faBook,
@@ -36,6 +25,14 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 
 import styles from "./navStyles";
+import {
+  InfoButton,
+  FilterButton,
+  TagsButton,
+  HelpButton,
+  DocumentationButton,
+  PrintButton,
+} from "./ToolbarButtons";
 
 
 library.add(
@@ -46,7 +43,6 @@ library.add(
   faTags,
   faQuestionCircle,
 );
-
 
 /**
  * Toolbar component, contains the toolbar buttons & Filter box.
@@ -89,9 +85,9 @@ class Toolbar extends Component {
     }));
   }
 
-  filterOnClick(e){
+  filterOnClick(e) {
     let checkedValue = e.currentTarget.value;
-    this.setState({filter: checkedValue});
+    this.setState({ filter: checkedValue });
     this.props.updateFilterFunc(checkedValue);
   }
 
@@ -110,161 +106,6 @@ class Toolbar extends Component {
   }
 
   /**
-   * Return the info button which toggles the info modal.
-   */
-  infoButton() {
-    return (
-      <NavItem>
-        <div className={css(styles.buttonsBar)}>
-          <FontAwesomeIcon
-            key='toolbar-info'
-            className={css(styles.toolbarButton)}
-            icon='info'
-            title='Info'
-            onClick={this.toggleInfoOnClick}
-          />
-        </div>
-      </NavItem>
-    );
-  }
-
-  /**
-   * Return the filter button which opens a drop-down menu.
-   */
-  filterButton(toolbarStyle) {
-    return (
-      <UncontrolledDropdown nav inNavbar>
-        <div className={css(styles.buttonsBar)}>
-          <DropdownToggle nav className={toolbarStyle}>
-            <FontAwesomeIcon
-              key='toolbar-filter'
-              icon='filter'
-              title='Choose filter'
-              className={css(styles.toolbarButton)}
-            />
-          </DropdownToggle>
-        </div>
-        <DropdownMenu className={css(styles.filterDropdown)}>
-          <DropdownItem toggle={false}
-            className={css(styles.dropdownItem)}>
-            <Label check className={css(styles.filterLabel)}>
-              <Input type="radio" name="filter" value='all'
-                checked={this.state.filter === 'all'}
-                onChange={this.filterOnClick}/>{' '}
-              All
-            </Label>
-          </DropdownItem>
-          <DropdownItem toggle={false}
-            className={css(styles.dropdownItem)}>
-            <Label check className={css(styles.filterLabel)}>
-              <Input type="radio" name="filter" value='fail'
-                checked={this.state.filter === 'fail'}
-                onChange={this.filterOnClick}/>{' '}
-              Failed only
-            </Label>
-          </DropdownItem>
-          <DropdownItem toggle={false}
-            className={css(styles.dropdownItem)}>
-            <Label check className={css(styles.filterLabel)}>
-              <Input type="radio" name="filter" value='pass'
-                checked={this.state.filter === 'pass'}
-                onChange={this.filterOnClick}/>{' '}
-              Passed only
-            </Label>
-          </DropdownItem>
-          <DropdownItem divider />
-          <DropdownItem toggle={false}
-            className={css(styles.dropdownItem)}>
-            <Label check className={css(styles.filterLabel)}>
-              <Input type="checkbox" name="displayEmptyTest"
-                checked={!this.state.displayEmpty}
-                onChange={this.toggleEmptyDisplay}/>{' '}
-              Hide empty testcase
-            </Label>
-          </DropdownItem>
-        </DropdownMenu>
-      </UncontrolledDropdown>
-    );
-  }
-
-  /**
-   * Return the button which prints the current testplan.
-   */
-  printButton() {
-    return (
-      <NavItem>
-        <div className={css(styles.buttonsBar)}>
-          <FontAwesomeIcon
-            key='toolbar-print'
-            className={css(styles.toolbarButton)}
-            icon='print'
-            title='Print page'
-            onClick={window.print}
-          />
-        </div>
-      </NavItem>
-    );
-  }
-
-  /**
-   * Return the button which toggles the display of tags.
-   */
-  tagsButton() {
-    return (
-      <NavItem>
-        <div className={css(styles.buttonsBar)}>
-          <FontAwesomeIcon
-            key='toolbar-tags'
-            className={css(styles.toolbarButton)}
-            icon='tags'
-            title='Toggle tags'
-            onClick={this.toggleTagsDisplay}
-          />
-        </div>
-      </NavItem>
-    );
-  }
-
-  /**
-   * Return the button which toggles the help modal.
-   */
-  helpButton() {
-    return (
-      <NavItem>
-        <div className={css(styles.buttonsBar)}>
-          <FontAwesomeIcon
-            key='toolbar-question'
-            className={css(styles.toolbarButton)}
-            icon='question-circle'
-            title='Help'
-            onClick={this.toggleHelpOnClick}
-          />
-        </div>
-      </NavItem>
-    );
-  }
-
-  /**
-   * Return the button which links to the documentation.
-   */
-  documentationButton() {
-    return (
-      <NavItem>
-        <a href='http://testplan.readthedocs.io'
-          rel='noopener noreferrer' target='_blank'
-          className={css(styles.buttonsBar)}>
-          <FontAwesomeIcon
-            key='toolbar-document'
-            className={css(styles.toolbarButton)}
-            icon='book'
-            title='Documentation'
-          />
-        </a>
-      </NavItem>
-    );
-  }
-
-  /**
    * Return the navbar including all buttons.
    */
   navbar() {
@@ -273,17 +114,21 @@ class Toolbar extends Component {
     return (
       <Navbar light expand="md" className={css(styles.toolbar)}>
         <div className={css(styles.filterBox)}>
-          <FilterBox handleNavFilter={this.props.handleNavFilter}/>
+          <FilterBox handleNavFilter={this.props.handleNavFilter} />
         </div>
         <Collapse isOpen={this.state.isOpen} navbar className={toolbarStyle}>
           <Nav navbar className='ml-auto'>
             {this.props.extraButtons}
-            {this.infoButton()}
-            {this.filterButton(toolbarStyle)}
-            {this.printButton()}
-            {this.tagsButton()}
-            {this.helpButton()}
-            {this.documentationButton()}
+            <InfoButton toggleInfoOnClick={this.props.toggleInfoOnClick} />
+            <FilterButton
+              filter={this.state.filter}
+              filterOnClick={this.filterOnClick}
+              toolbarStyle={toolbarStyle}
+            />
+            <PrintButton />
+            <TagsButton toggleTagsDisplay={this.toggleTagsDisplay} />
+            <HelpButton toggleHelpOnClick={this.toggleHelpOnClick} />
+            <DocumentationButton />
           </Nav>
         </Collapse>
       </Navbar>
@@ -357,16 +202,16 @@ class Toolbar extends Component {
  * Get the current toolbar style based on the testplan status.
  */
 const getToolbarStyle = (status) => {
-  switch (STATUS_CATEGORY[status]){
+  switch (STATUS_CATEGORY[status]) {
     case 'passed':
-        return css(styles.toolbar, styles.toolbarPassed);
+      return css(styles.toolbar, styles.toolbarPassed);
     case 'failed':
     case 'error':
-        return css(styles.toolbar, styles.toolbarFailed);
+      return css(styles.toolbar, styles.toolbarFailed);
     case 'unstable':
-        return css(styles.toolbar, styles.toolbarUnstable);
+      return css(styles.toolbar, styles.toolbarUnstable);
     default:
-        return css(styles.toolbar, styles.toolbarUnknown);
+      return css(styles.toolbar, styles.toolbarUnknown);
   }
 };
 
