@@ -14,6 +14,9 @@ function defaultProps() {
     status: 'passed',
     buttons: TOOLBAR_BUTTONS_BATCH,
     handleNavFilter: jest.fn(),
+    updateFilterFunction: jest.fn(),
+    updateEmptyDisplayFunc: jest.fn(),
+    updateTagsDisplayFunc: jest.fn(),
   };
 }
 

@@ -494,9 +494,6 @@ class InteractiveReport extends React.Component {
         <Toolbar
           status={reportStatus}
           handleNavFilter={noop}
-          updateFilterFunc={noop}
-          updateEmptyDisplayFunc={noop}
-          updateTagsDisplayFunc={noop}
           extraButtons={[<ResetButton
             resetStateCbk={this.resetReport}
             resetting={this.state.resetting}

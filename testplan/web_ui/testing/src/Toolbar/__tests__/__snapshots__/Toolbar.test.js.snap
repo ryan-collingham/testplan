@@ -81,15 +81,7 @@ exports[`Toolbar inserts extra buttons into the toolbar 1`] = `
           </div>
         </NavItem>
         <InfoButton />
-        <FilterButton
-          filter="all"
-          filterOnClick={[Function]}
-          toolbarStyle="toolbar_l6n5rs-o_O-toolbarPassed_1bjpgj2"
-        />
         <PrintButton />
-        <TagsButton
-          toggleTagsDisplay={[Function]}
-        />
         <HelpButton
           toggleHelpOnClick={[Function]}
         />
@@ -242,15 +234,7 @@ exports[`Toolbar shallow renders the correct HTML structure for batch mode 1`] =
         vertical={false}
       >
         <InfoButton />
-        <FilterButton
-          filter="all"
-          filterOnClick={[Function]}
-          toolbarStyle="toolbar_l6n5rs-o_O-toolbarPassed_1bjpgj2"
-        />
         <PrintButton />
-        <TagsButton
-          toggleTagsDisplay={[Function]}
-        />
         <HelpButton
           toggleHelpOnClick={[Function]}
         />
@@ -403,15 +387,7 @@ exports[`Toolbar shallow renders the correct HTML structure for interactive mode
         vertical={false}
       >
         <InfoButton />
-        <FilterButton
-          filter="all"
-          filterOnClick={[Function]}
-          toolbarStyle="toolbar_l6n5rs-o_O-toolbarPassed_1bjpgj2"
-        />
         <PrintButton />
-        <TagsButton
-          toggleTagsDisplay={[Function]}
-        />
         <HelpButton
           toggleHelpOnClick={[Function]}
         />

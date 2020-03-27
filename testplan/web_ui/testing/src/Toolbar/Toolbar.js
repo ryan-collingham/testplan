@@ -110,6 +110,9 @@ class Toolbar extends Component {
    */
   navbar() {
     const toolbarStyle = getToolbarStyle(this.props.status);
+    const enableFilter = (
+      this.props.toggleFilterOnClick && this.props.toggleEmptyDisplay
+    );
 
     return (
       <Navbar light expand="md" className={css(styles.toolbar)}>
@@ -120,13 +123,21 @@ class Toolbar extends Component {
           <Nav navbar className='ml-auto'>
             {this.props.extraButtons}
             <InfoButton toggleInfoOnClick={this.props.toggleInfoOnClick} />
-            <FilterButton
-              filter={this.state.filter}
-              filterOnClick={this.filterOnClick}
-              toolbarStyle={toolbarStyle}
-            />
+            {
+              enableFilter ?
+                <FilterButton
+                  filter={this.state.filter}
+                  filterOnClick={this.filterOnClick}
+                  toolbarStyle={toolbarStyle}
+                  displayEmpty={this.state.displayEmpty}
+                  toggleEmptyDisplay={this.props.toggleEmptyDisplay}
+                /> : null
+            }
             <PrintButton />
-            <TagsButton toggleTagsDisplay={this.toggleTagsDisplay} />
+            {
+              this.props.toggleTagsDisplay ?
+                <TagsButton toggleTagsDisplay={this.toggleTagsDisplay} /> : null
+            }
             <HelpButton toggleHelpOnClick={this.toggleHelpOnClick} />
             <DocumentationButton />
           </Nav>
